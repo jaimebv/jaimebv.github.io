@@ -140,12 +140,12 @@ export const wsnData = {
     id: "wsn",
     title: "Wireless Sensor Network for Environmental and Pollutant Monitoring",
     subtitle: "From Requirements to Real Product",
-    overview: "I architected and led the development of a highly scalable, RTOS-based embedded platform designed for remote environmental and pollutant monitoring. Operating in highly distributed and often harsh environments, the system leverages edge computing for real-time sensor calibration, I2C multiplexing for dynamic sensor payloads, and a highly resilient telemetry pipeline featuring automated failovers between Cellular (GPRS/SIM800) and WiFi networks.",
+    overview: "I architected and led the development of a highly scalable, RTOS-based embedded platform designed for remote environmental and pollutant monitoring. Operating in highly distributed and often harsh environments. The system leverages TinyML to implement Neural Networks for real-time sensor calibration, I2C multiplexing for dynamic sensor payloads, and a highly resilient telemetry pipeline featuring automated failovers between Cellular (GPRS) and WiFi networks.",
     role: "Embedded IoT Engineer & Technical Lead",
-    roleDescription: "I led the development of a Wireless Sensor Network for Environmental and Pollutant Monitoring from the requirements collection, through firmware development and system integration, hardware prototyping, product design, and finally product launch. My focus was on architecting a fault-tolerant FreeRTOS environment, designing the modular C++ firmware architecture, and ensuring rock-solid remote connectivity.",
+    roleDescription: "I led the development of full life-cycle of a Wireless Sensor Network for Environmental and Pollutant Monitoring from the requirements collection, through firmware development and system integration, hardware prototyping, product design, and finally product launch. My focus was on architecting a fault-tolerant FreeRTOS environment, designing the modular C++ firmware architecture, and ensuring rock-solid remote connectivity.",
     techStack: [
         "C/C++",
-        "FreeRTOS (ESP32)",
+        "FreeRTOS",
         "Embedded Systems Architecture",
         "Hardware Prototyping",
         "Product Design",
@@ -159,9 +159,9 @@ export const wsnData = {
             title: "System Architecture: Breaking Down the Complexity",
             content: "To solve the complexity of managing concurrent sensor polling, network I/O, and processing without blocking the system, I architected an event-driven, multi-threaded firmware design using FreeRTOS. Key architectural decisions included:",
             list: [
-                { strong: "Deterministic Scheduling:", text: "I implemented a hardware timer-driven scheduler operating at 1 MHz, which triggers an Interrupt Service Routine (ISR). To keep the ISR extremely lean, it utilizes `xQueueSendFromISR` to defer the heavy lifting of sensor data acquisition to a dedicated FreeRTOS task.." },
-                { strong: "Decoupled Telemetry Pipeline:", text: "Network transmission can inherently block execution. To mitigate this, I designed an asynchronous `Transmitter` task that listens to a FreeRTOS queue (`_transmitter_queue`). Sensor payloads are formatted into JSON and queued for transmission, allowing the sensor hub to continue polling precisely on schedule regardless of network latency.." },
-                { strong: "Resource Guarding:", text: "Given the shared nature of the I2C bus among multiplexers and various sensors, I implemented an `I2CBusGuard` mutex system to prevent bus collisions and ensure thread-safe peripheral access." },
+                { strong: "Deterministic Scheduling:", text: "I implemented a hardware timer-driven scheduler, which triggers an Interrupt Service Routine (ISR) to create system ticks. To keep the ISR extremely lean, it utilizes `xQueueSendFromISR` to defer the heavy lifting of sensor data acquisition to a dedicated FreeRTOS task." },
+                { strong: "Decoupled Telemetry Pipeline:", text: "Network transmission can inherently block execution. To mitigate this, I designed an asynchronous `Transmitter` task that listens to a FreeRTOS queue. Sensor payloads are formatted into JSON and queued for transmission, allowing the sensor hub to continue polling precisely on schedule regardless of network latency." },
+                { strong: "Resource Guarding:", text: "Given the shared nature of the I2C bus among multiplexers and various sensors, I implemented a mutex system to prevent bus collisions and ensure thread-safe peripheral access." },
                 { strong: "Leverage OOP:", text: "I decided to leverage OOP to create a modular, plug-and-play ecosystem that allowed the hardware to scale without firmware rewrites. Sensors connected to the hub are created following a sensor template. Furthermore, a port structure allows the hub to be used with any sensor that implements the same interface, while abstracting it from the hardware." }
             ]
         },
@@ -175,17 +175,17 @@ export const wsnData = {
                 },
                 {
                     strong: "Smart Edge Calibration:",
-                    text: "Raw environmental data often drifts. I proposed an on-device calibration engine that applies mathematical corrections at the edge—including configurable Offsets, Linear Regression, and Multivariate Linear Regression models—before the data is ever packaged for the cloud."
+                    text: "Raw environmental data often drifts. I proposed to implement an on-device calibration engine that applies mathematical corrections, including configurable Offsets, Linear Regression, Multivariate Linear Regression models, and neural networks, before the data is ever packaged for the cloud."
                 },
                 {
                     strong: "Time-Windowed Sampling Constraints:",
-                    text: "To optimize power and data usage, I designed an RTC-aware constraint engine that dynamically adjusts or blocks sensor sampling based on the time of day (e.g., Morning vs. Midnight) or the day of the week (Weekday vs. Weekend)."
+                    text: "To optimize power and data usage, I designed an RTC-aware constraint engine that dynamically adjusts or blocks sensor sampling based on the time of day (e.g., Morning vs. Midnight) or the day of the week (Weekday vs. Weekend). The window is independent for each sensor port in the platform, allowing maximal functional flexibility"
                 }
             ]
         },
         {
             title: "Engineering Challenges & Designing for Resilience",
-            content: "Deploying hardware in remote locations means physical maintenance is virtually impossible. The system had to be self-healing.",
+            content: "Deploying hardware in remote locations means physical maintenance is virtually impossible. The system had to be self-healing and able to upgrade remotelly.",
             list: [
                 {
                     strong: "Abstracted & Resilient Connectivity:",
@@ -198,6 +198,10 @@ export const wsnData = {
                 {
                     strong: "Local Field Diagnostics:",
                     text: "For on-site technicians, I implemented a debounced hardware interrupt that spins up a local WiFi Access Point and a captive portal Web Server. This allows secure, in-field access to live HTML data streams, RTC time synchronization, and the downloading of gzipped historical `.csv` logs directly from the onboard SD card."
+                },
+                {
+                    strong: "OTA Firmware Updates:",
+                    text: "I lead the design of a firmware update mechanism. The system downloads the new firmware to a temporary buffer, verifies its integrity, and then performs a controlled swap of the active firmware image. This ensures that even if the update process is interrupted, the device can recover and continue operating with the last known good firmware."
                 }
             ]
         },
