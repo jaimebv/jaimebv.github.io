@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-obsidian-900 text-white font-sans antialiased min-h-screen selection:bg-white/20;
+  }
+}
+
+@layer utilities {
+  /* Silver gradient text utility */
+  .text-silver {
+    @apply bg-clip-text text-transparent bg-silver-gradient;
+  }
+  
+  /* Modern Obsidian Card / Container */
+  .glass-panel {
+    @apply bg-white/[0.03] border border-white/10 backdrop-blur-3xl transition-all duration-300;
+  }
+  
+  .glass-panel:hover {
+    @apply bg-white/[0.05] border-white/20;
+  }
+
+  /* 92vw container class required by guidelines */
+  .container-fluid {
+    @apply w-[92vw] mx-auto;
+  }
+}
