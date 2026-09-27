@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import CaseStudy from './pages/CaseStudy';
 import TechPortfolio from './pages/TechPortfolio';
 import Innovations from './pages/Innovations';
+import Book from './pages/Book';
 import { seqamData, greenShiftData, mapekData, ceaData, wsnData, eeaaRtosData, secondBrainData } from './data/caseStudies';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                     <Route path="cea" element={<CaseStudy data={ceaData} />} />
                     <Route path="tech-portfolio" element={<TechPortfolio />} />
                     <Route path="innovations" element={<Innovations />} />
+                    <Route path="mastering-personal-ai-agents" element={<Book />} />
                     <Route path="eeaa-rtos" element={<CaseStudy data={eeaaRtosData} />} />
                     <Route path="second-brain" element={<CaseStudy data={secondBrainData} />} />
                 </Route>

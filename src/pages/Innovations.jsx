@@ -1,4 +1,5 @@
-import { FileText, Code2, ExternalLink } from 'lucide-react';
+import { FileText, BookOpen, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ContactForm from '../components/ContactForm';
 
 export default function Innovations() {
@@ -55,6 +56,19 @@ export default function Innovations() {
                 { name: "Edge AI", bg: "bg-purple-500/20 text-purple-200" }
             ],
             link: "https://ieeexplore.ieee.org/document/11580083/"
+        },
+        {
+            id: 6,
+            kind: "book",
+            title: "Mastering Personal AI Agents with OpenClaw 2.0",
+            description: "A 373-page operator's guide to designing, securing and running personal AI agents: gateway and runtime architecture, sessions and context hygiene, memory and knowledge management, multi-agent communication, security and cost optimization.",
+            tags: [
+                { name: "Book", bg: "bg-slate-500/20 text-slate-200" },
+                { name: "AI Agents", bg: "bg-purple-500/20 text-purple-200" },
+                { name: "Agent Architecture", bg: "bg-blue-500/20 text-blue-200" },
+                { name: "Security", bg: "bg-red-500/20 text-red-200" }
+            ],
+            internalLink: "/mastering-personal-ai-agents"
         }
     ];
 
@@ -82,9 +96,11 @@ export default function Innovations() {
                         >
                             <div className="flex items-center justify-between mb-6">
                                 <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-white/80 group-hover:text-white group-hover:bg-white/10 transition-colors">
-                                    <FileText size={20} />
+                                    {paper.kind === "book" ? <BookOpen size={20} /> : <FileText size={20} />}
                                 </div>
-                                <FileText size={24} className="text-white/20 group-hover:text-white/50 transition-colors" />
+                                {paper.kind === "book"
+                                    ? <BookOpen size={24} className="text-white/20 group-hover:text-white/50 transition-colors" />
+                                    : <FileText size={24} className="text-white/20 group-hover:text-white/50 transition-colors" />}
                             </div>
 
                             <h3 className="font-sans font-semibold text-xl text-white mb-3 group-hover:text-silver-gradient transition-colors">
@@ -106,16 +122,23 @@ export default function Innovations() {
                                 ))}
                             </div>
 
-                            <a
-                                href={paper.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-white/5 hover:bg-white text-white hover:text-black font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 border border-white/10 hover:border-white group/btn"
-                            >
-                                <FileText size={14} className="group-hover/btn:text-black transition-colors" />
-                                Learn more
-                                <ExternalLink size={12} className="opacity-50 group-hover/btn:opacity-100 transition-opacity" />
-                            </a>
+                            {paper.internalLink ? (
+                                <Link to={paper.internalLink} className={buttonClass}>
+                                    <BookOpen size={14} className="group-hover/btn:text-black transition-colors" />
+                                    View book
+                                </Link>
+                            ) : (
+                                <a
+                                    href={paper.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={buttonClass}
+                                >
+                                    <FileText size={14} className="group-hover/btn:text-black transition-colors" />
+                                    Learn more
+                                    <ExternalLink size={12} className="opacity-50 group-hover/btn:opacity-100 transition-opacity" />
+                                </a>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -123,3 +146,5 @@ export default function Innovations() {
         </article>
     );
 }
+
+const buttonClass = "flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-white/5 hover:bg-white text-white hover:text-black font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 border border-white/10 hover:border-white group/btn";
