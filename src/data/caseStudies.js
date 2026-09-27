@@ -2,32 +2,68 @@ export const seqamData = {
     id: "seqam",
     title: "Service Quality Manager",
     subtitle: "Enterprise-Grade Observability & Orchestration for the Edge-Cloud",
-    overview: "In decentralized edge computing, ensuring consistent end-to-end service quality across heterogeneous infrastructures is a massive challenge. Traditional observability tools fail to correlate multi-source information across user devices, edge servers, and core networks simultaneously. SeQaM is a highly scalable, multi-tier telemetry and orchestration platform built to solve this. It serves as the foundational data engine for modern edge environments, actively deployed in high-stakes Proof-of-Concepts with enterprise partners like SAP and T-Systems for workload placement in federated edge environments.",
+    overview: "In decentralized edge computing, ensuring consistent end-to-end service quality across heterogeneous infrastructures is a massive challenge. Traditional observability tools fail to correlate multi-source information across user devices, edge servers, and core networks simultaneously. SeQaM is a highly scalable, multi-tier telemetry and orchestration platform built to solve this, serving as the foundational data engine for modern edge environments.",
     role: "Lead Systems Architect & Product Owner",
-    roleDescription: "I spearheaded the end-to-end product strategy and system architecture. I designed SeQaM's decoupled infrastructure—separating Central, Distributed, and Network components—to handle massive data ingestion and real-time event orchestration. Beyond the architecture, I owned the agile execution, translating complex infrastructure requirements into actionable K8s deployment epics, defining strict JSON data schemas, and designing the REST API that allows external Services to interact with the system.",
-    techStack: ["Kubernetes", "OpenTelemetry", "Clickhouse", "Nginx", "Redis", "Distributed Systems Design", "REST APIs", "Kafka", "5G"],
+    roleDescription: "I designed the end-to-end decoupled architecture, separating Central, Distributed, and Network components. I specified the strict JSON data schemas and API contracts allowing external services to interact with the system. I coordinated the agile execution, translating complex infrastructure requirements into actionable Kubernetes deployment epics. I reviewed and integrated the intelligent recommender system used for workload placement.",
+    techStack: ["Kubernetes", "OpenTelemetry", "Clickhouse", "Nginx", "Redis", "REST APIs", "Kafka", "5G"],
     sections: [
         {
-            title: "System Architecture: Designing for Enterprise Scalability",
-            content: "As the Lead Systems Architect, I designed SeQaM as a decoupled, multi-tier system to handle massive data ingestion and real-time event orchestration. To ensure the system could scale to enterprise demands, I led the migration of this architecture into a Kubernetes (K8s) environment, integrating proxies for traffic routing, caches and messaging queues for fast-response and state management.",
+            title: "Problem",
+            content: "Deploying systems at the edge require service quality guarantees, but currently 5G networkds, and edge worker nodes present unpredictable behavior. Traditional monitoring tools were unable to provide correlated, end-to-end fine-grained visibility across user equipment, 5G networks, and edge worker nodes. There was a critical need for a system that could not only monitor these diverse environments but also trigger synchronized load tests and collect deterministic telemetry to allow application owners and infra providers to pinpoint service degradations."
+        },
+        {
+            title: "Requirements",
             list: [
-                { strong: "Central Components (The Core Engine):", text: "I architected the central hub to ingest and process data. It utilizes a Main Collector built on a OpenTelemetry (otel-collector) and a Clickhouse Database for high-throughput time-series data storage. The logic is handled by Core Components, including an Event Orchestrator for managing system states and an Experiment Dispatcher for automated testing workflows." },
-                { strong: "Distributed Components (The Edge Agents):", text: "I designed lightweight agents deployed directly on User Equipment (UEs) and Edge Servers (Worker Nodes). These include a customizable Metrics Collector for host metrics (CPU, GPU, Memory) and a local synchronized Event Orchestrator capable of triggering commands and programmatically simulating computational stress." },
-                { strong: "Network Components:", text: "For emulation purposes and the goal of capturing the complete E2E journey, I integrated Network Spies (using TCP DUMP), Network Loaders (utilizing iperf3) to track package flow and simulate network conditions across mobile networks and backhauls. This generates insights to identify the root cause of a service quality degradation within the laboratory set-up. Such input and knowledge was afterwards used to design and implement solutions for real scenarios. " }
+                {
+                    strong: "Functional Requirements:",
+                    text: "Collect and aggregate telemetry from user equipment, networks, and edge servers; Execute sequential or concurrent load generation (CPU, GPU, memory, network); Expose aggregated data via an extensible REST API for external orchestrators; Dynamically rank optimal clusters for workload placement."
+                },
+                {
+                    strong: "Non-functional Requirements:",
+                    text: "Enterprise-grade scalability to handle high-throughput time-series data; Millisecond-level precision for synchronized event triggering; Decoupled and highly available architecture; Minimal footprint for edge agents deployed on constrained devices."
+                }
             ]
         },
         {
-            title: "Defining Core Product Capabilities",
-            content: "Translating this distributed architecture into a deliverable product required strict prioritization. As Product Owner, I defined the following core capabilities:",
+            title: "System Functionality",
             list: [
-                { strong: "Deterministic Event Orchestration:", text: "The system implements data schemes for homogenize the inputs and events being handled. Events include commands for monitoring, changing frequency of sampling, generating load, etc. I defined an schema allowing the Experiment Dispatcher to trigger sequential or concurrent execution of CPU, GPU, memory, and network loads at precise microsecond timestamps." },
-                { strong: "Universal Telemetry Ingestion:", text: "The product leverages OpenTelemetry to standardize data collection from the edge applications. I ensured the system aggregated spans, custom metrics, and host analytics per specific experiment segment, allowing for immediate root-cause analysis." },
-                { strong: "Extensible REST API:", text: "To allow external orchestrators to act on SeQaM's data, I defined a robust API component. This API abstracts the underlying data complexity, providing actionable statistics to external Services." }
+                { strong: "Central Components (The Core Engine):", text: "I architected a central hub to ingest and process data. It utilizes a Main Collector built on a OpenTelemetry (otel-collector) and a Clickhouse Database for high-throughput time-series data storage. The logic is handled by Core Components, including an Event Orchestrator for managing system states and an Experiment Dispatcher that is synch with distributed event generators for automated testing workflows." },
+                { strong: "Distributed Components (The Edge Agents):", text: "I designed lightweight agents deployed directly on User Equipment (UEs) and Edge Servers (Worker Nodes). These include a customizable Metrics Collector for host metrics (CPU, GPU, Memory, etc.) and a local synchronized Event Orchestrator capable of triggering commands and programmatically simulating computational stress." },
+                { strong: "Network Components:", text: "For emulation purposes and the goal of capturing the complete E2E journey, I integrated Network Spies (using TCP DUMP), Network Loaders (utilizing iperf3) to track package flow and simulate network conditions across mobile networks and backhauls. This generates insights to identify the root cause of a service quality degradation within the laboratory set-up. Such input and knowledge was afterwards used to design and implement solutions for real scenarios." }
             ]
         },
         {
-            title: "The Business Outcome: Enterprise PoC with SAP and T-Systems",
-            content: "The true validation of SeQaM's architecture was its application in a high-stakes enterprise Proof of Concept. Using SeQaM's API and aggregated data, I led the implementation of an Intelligent Recommender System for performance-sensitive workloads. We successfully integrated this system with SAP and T-Systems. Specifically, SAP's platform mesh system (APEIRORA stack) queries our recommender API. SeQaM analyzes real-time and historical telemetry across the cloud-edge continuum and returns a dynamically ranked list of optimal Kubernetes clusters for workload placement. The integrated system was presented at the General Assembly 8ra Community, where technologies to be used in the Next European Cloud-Edge Continuum where showcased."
+            title: "Architecture Decisions",
+            list: [
+                {
+                    strong: "Kubernetes:",
+                    text: "Selected for the core engine to ensure high availability, easy scaling of microservices, and seamless integration with enterprise cloud-edge deployments."
+                },
+                {
+                    strong: "Clickhouse:",
+                    text: "Chosen over traditional relational databases for its exceptional write throughput and fast analytical querying capabilities required for high-volume time-series telemetry."
+                },
+                {
+                    strong: "OpenTelemetry:",
+                    text: "Adopted to prevent vendor lock-in and standardize data collection (metrics, logs, traces) across heterogeneous edge applications."
+                },
+                {
+                    strong: "Kafka:",
+                    text: "Implemented as the messaging backbone to decouple real-time data ingestion from post-processing, ensuring resilience."
+                },
+                {
+                    strong: "Redis:",
+                    text: "Used as an in-memory cache to enable fast-response querying and state management for external systems that orchestrate corrective actions."
+                }
+            ]
+        },
+        {
+            title: "Results",
+            content: "Successfully demonstrated adaptive workload placement in a enterprise Proof-of-Concept with SAP and T-Systems. SAP's APEIRORA stack successfully queried the SeQaM API to dynamically rank and place workloads across the cloud-edge continuum, which was showcased at the General Assembly 8ra Community."
+        },
+        {
+            title: "Lessons Learned",
+            content: "Designing for telemetry ingestion requires strict data homogenization at the edge, OTEL is suitable for generating slow logs, but not for real-time processing. Distributed synchronized collectors and event orchestrators are far more efficient for real-time data processing than centralizing raw data. By standardizing the input schemas early via OpenTelemetry, I avoided massive bottlenecks in the core engine, proving that standardizing data contracts is as critical as the infrastructure itself."
         }
     ]
 };
@@ -36,34 +72,61 @@ export const greenShiftData = {
     id: "greenshift",
     title: "GreenShift",
     subtitle: "Architecting ESG Compliance and CO2 Transparency for Virtualized Workloads",
-    overview: "With the enforcement of the EU's Corporate Sustainability Reporting Directive (CSRD), enterprise datacenters must accurately report their environmental impact. However, no off-the-shelf tool currently bridges the 'passthrough gap' between physical hypervisor energy sensors and isolated guest Kubernetes pods. GreenShift is a software-defined energy attribution platform designed for KVM-based systems. It successfully estimates service-level energy consumption and carbon footprints, empowering datacenter providers to offer 'Energy & CO2-as-a-Metric' to their tenants. System was implemented in partnership with industry leading OpenNebula (ESP).",
+    overview: "With the enforcement of the EU's Corporate Sustainability Reporting Directive (CSRD), enterprise datacenters and IT application owners must report their environmental impact. GreenShift is a software-defined energy attribution platform designed for KVM-based systems that successfully bridges the \"passthrough gap\" between physical hypervisors and isolated Kubernetes pods, estimating service-level energy consumption and carbon footprints.",
     role: "Lead Systems Architect & Product Owner",
-    roleDescription: "I was tasked with defining the system's architecture and technical feasibility, system boundaries, and product roadmap for this platform. I designed a secure, two-layer architecture utilizing virtual sockets to pass real-time energy budgets from a Host Telemetry Agent directly into a Guest Attributor. Collected data is finally grouped based on K8s namespaces and manifests (pod, deployment, etc.) through a well-defined and secure API for datacenter and customer dashboards. As Product Owner, I managed the strategic trade-offs—such as enforcing statistical sampling to prevent system overhead and integrating a Carbon Model for emissions tracking—and structured the engineering effort into a strict, three-phase agile delivery plan.",
-    techStack: ["KVM Virtualization (Proxmox/OpenNebula)", "eBPF", "RAPL Interfaces", "virtio-vsock", "Green IT", "Kubernetes", "Grafana", "Prometheus", "REST API"],
+    roleDescription: "I defined the system's architecture, technical feasibility, software components, system specifications and integration guidelines. I designed the communication bridge between physical hypervisors and isolated Kubernetes pods. I specified the product roadmap, breaking the engineering effort into a strict, three-phase agile delivery plan. I coordinated the integration of Carbon and Energy models with established state-of-the-art methodologies. I also coordinated the technical management with the stakeholders",
+    techStack: ["KVM Virtualization (Proxmox/OpenNebula/OpenStack)", "eBPF", "RAPL Interfaces", "Kubernetes", "Grafana", "Prometheus", "Thanos", "Kafka", "REST API"],
     sections: [
         {
-            title: "System Architecture: Bridging the Passthrough Gap",
-            content: "To solve the lack of visibility between bare-metal hardware and containerized workloads, I designed a decoupled, multi-layer architecture:",
+            title: "Problem",
+            content: "Enterprise datacenters lacked off-the-shelf tooling to attribute physical host power consumption to isolated, containerized workloads running inside virtual machines on top of multi-tenant datacenter infrastructure. This \"passthrough gap\" prevented datacenter providers from offering transparent \"Energy & CO2-as-a-Metric\" reporting required for modern ESG compliance."
+        },
+        {
+            title: "Requirements",
+            list: [
+                {
+                    strong: "Functional Requirements:",
+                    text: "Read physical hardware sensors and cross-reference with grid carbon intensity; Pass energy budgets securely from the hypervisor to the guest VM; Attribute total guest VM energy to individual Kubernetes Pods and Namespaces; Expose aggregated carbon metrics via a REST API."
+                },
+                {
+                    strong: "Non-functional Requirements:",
+                    text: "Extremely low system overhead (cannot degrade host performance); Secure communication across the hypervisor boundary; Avoidance of vendor lock-in for future hardware compatibility."
+                }
+            ]
+        },
+        {
+            title: "System Functionality",
             list: [
                 { strong: "Host Telemetry & Carbon Agent (DC Agent).", text: "An agent running directly on the hypervisor (Datacenter Agent) that utilizes BPF probes to read physical hardware sensors. This agent does not just calculate raw power, but instead it incorporates both an Energy Model and a Carbon Model. This allows the system to cross-reference real-time energy consumption with grid carbon intensity to estimate CO2 emissions." },
-                { strong: "Passthrough Pipeline.", text: "To securely cross the hypervisor boundary, I defined a custom communication bridge (utilizing virtual sockets) to stream the real-time energy and carbon data from the host directly into the isolated guest environment." },
+                { strong: "Passthrough Pipeline.", text: "To securely cross the hypervisor boundary, I defined a custom communication bridge to stream the real-time energy and carbon data from the host directly into the isolated guest environment." },
                 { strong: "In-VM Guest Attributor.", text: "A lightweight agent deployed within the virtual machine. It ingests the total energy and carbon data provided by the Host Agent and uses a Pod Energy Model to attribute it to individual Kubernetes Pods." },
-                { strong: "Green Core.", text: "A Core module aggregates Pods data into deployments or jobs and exposes a REST API to external systems (e.g., dashboards, external orchestrators)." }
-
+                { strong: "Green Core.", text: "A Core module aggregates energy from PDUs and hypervisors to generate the attribution model." }
             ]
         },
         {
-            title: "Strategic Product Decisions & Trade-offs",
-            content: "A successful architecture required defining what not to build. As the Product Owner, I established strict operational constraints to ensure the system remained feasible and performant:",
+            title: "Architecture Decisions",
             list: [
-                { strong: "Overhead vs. Accuracy:", text: "I determined that tracking sub-millisecond context switches created excessive system overhead; therefore, I mandated a statistical sampling approach to balance minor attribution errors against system stability." },
-                { strong: "Defining System Boundaries:", text: "I clearly scoped the MVP to focus on CPU and memory energy allocation. I documented that GPU energy tracking in shared or partitioned environments currently lacks a standard cross-vendor API, meaning it was deferred from the initial PoC to avoid vendor lock-in and ensure reliable deliverables." },
-                { strong: "Methodology Validation:", text: "I aligned our software estimation models with the methodologies validated by other schemas, ensuring our approach to attribute energy and carbon was grounded in state-of-the-art methodologies." }
+                {
+                    strong: "eBPF:",
+                    text: "Chosen for the Host Agent because it provides safe, low-overhead observability directly at the kernel level without requiring kernel modifications."
+                },
+                {
+                    strong: "Statistical Sampling vs. Exact Tracking:",
+                    text: "I decided to enforce statistical sampling rather than tracking sub-millisecond context switches; the trade-off was a minor, acceptable margin of error in exchange for preserving system stability and performance."
+                },
+                {
+                    strong: "Deferred GPU Tracking:",
+                    text: "I scoped the MVP to focus only on CPU/Memory, intentionally deferring GPU tracking because shared-GPU environments lack standard cross-vendor APIs, avoiding early vendor lock-in."
+                }
             ]
         },
         {
-            title: "The Business Outcome: PoC with OpenNebula",
-            content: "To guide the engineering teams, I phased the Proof-of-Concept into a structured, agile delivery roadmap. I successfully delivered a viable, low-overhead architectural blueprint and phased roadmap, working in cooperation with international industry players."
+            title: "Results",
+            content: "Successfully delivered a viable, low-overhead architectural blueprint and MVP intalled in the datacenter of o company. The system was initially validated in a Proof-of-Concept in partnership with OpenNebula, and then a product version was installed within the infrastructure of Reply."
+        },
+        {
+            title: "Lessons Learned",
+            content: "In observability, absolute precision can be the enemy of system stability. Accepting a statistical sampling approach instead of enforcing exact millisecond tracking was a critical compromise that saved the host from CPU starvation, highlighting that architectural success often relies on knowing what *not* to build."
         }
     ]
 };
@@ -72,14 +135,30 @@ export const mapekData = {
     id: "mapek",
     title: "MAPE-K Edge AI",
     subtitle: "Self-Healing Infrastructure & Closed-Loop Control for Edge AI",
-    overview: "Performance-sensitive Edge AI applications, such as real-time computer vision, require strict latency guarantees. Volatile mobile networks and constrained edge servers often cause severe degradation. To move beyond passive monitoring, I designed a Closed-Loop Intelligent Controller built on a continuous Monitor-Analyze-Plan-Execute-Knowledge (MAPE-K) framework. This system autonomously diagnoses bottlenecks and triggers sub-second mitigation strategies—such as dynamic network path selection (5G vs. Wi-Fi) or workload migration—to maintain strict End-to-End Service Quality.",
+    overview: "Performance-sensitive Edge AI applications, such as real-time computer vision, require strict latency guarantees that volatile mobile networks often disrupt. To move beyond passive monitoring, I architected a Closed-Loop Intelligent Controller based on the MAPE-K (Monitor-Analyze-Plan-Execute-Knowledge) framework, dynamically mitigating bottlenecks to maintain strict End-to-End Service Quality.",
     role: "Lead Systems Architect & Product Owner",
-    roleDescription: "I designed the overarching autonomous control architecture, bridging multi-layer metrics collection with an intelligent Decision Engine. To ensure long-term scalability, I architected the Service Planner to utilize decoupled, containerized 'Recommender Modules' operating via strict API contracts. On the product side, I defined the optimization guardrails—prioritizing window-based stability (P95/P99 latency) over unfeasible per-request tracking—and coordinated the cross-functional work packages (WP0-WP8) required to integrate the AI models, telemetry agents, and network infrastructure.",
+    roleDescription: "I designed the autonomous control architecture and the MAPE-K feedback loop. I specified the API contracts for the decoupled Service Planner and Recommender Modules. I coordinated cross-functional work packages integrating AI models, telemetry agents, and network infrastructure. I reviewed the optimization guardrails to ensure window-based stability.",
     techStack: ["Autonomous Systems", "MAPE-K Control Loops", "5G/Wi-Fi Telemetry", "Distributed Tracing", "Edge Computing", "Containerized AI Modules"],
     sections: [
         {
-            title: "System Architecture: Real-time Service Quality Assurance",
-            content: "To solve this, I architected a closed monitoring and control loop that ingest data from multiple edge clusters and network providers to provide real-time service quality assurance:",
+            title: "Problem",
+            content: "Edge AI workloads were suffering from severe degradation due to unpredictable network latency and constrained edge server GPU resources. Passive monitoring alerted operators to failures but couldn't react fast enough, requiring an autonomous system to detect, diagnose, and resolve bottlenecks in real-time."
+        },
+        {
+            title: "Requirements",
+            list: [
+                {
+                    strong: "Functional Requirements:",
+                    text: "Ingest real-time metrics from distributed edge clusters and network providers; Estimate network and inference latency using AI-powered recommender models; Trigger dynamic network path selection (e.g., between two 5G providers) or workload migrations; Execute mitigation actions while treating the core application as a black box."
+                },
+                {
+                    strong: "Non-functional Requirements:",
+                    text: "Sub-second decision and execution latency; Decoupled and pluggable AI models; Resilience against partial metric data loss."
+                }
+            ]
+        },
+        {
+            title: "System Functionality",
             list: [
                 { strong: "SeQaM.", text: "A service quality manager that runs on the edge clusters and collects, aggregates and correlates distributed metrics to identify the root cause of service quality degradation." },
                 { strong: "SP Core.", text: "Acts as the centralized brain of the system. It is responsible for retriving service quality data from SeQaM and employing AI-powered models to estimate network and processing (inference) latency if using a certain network provider or edge cluster to determine the most suitable combination that ensures the best service quality for the Edge AI workloads." },
@@ -87,8 +166,29 @@ export const mapekData = {
             ]
         },
         {
-            title: "The Business Outcome: PoC with ENG",
-            content: "The system was implemented in a Federated Edge Platform distributed accross Europe in partnership with ENG (ITA).",
+            title: "Architecture Decisions",
+            list: [
+                {
+                    strong: "MAPE-K Framework:",
+                    text: "Selected because it provides a proven, structured methodology for building autonomous, self-healing systems that clearly separates concerns (monitoring vs. planning vs. execution)."
+                },
+                {
+                    strong: "Containerized Recommender Modules:",
+                    text: "I chose to deploy the AI decision engines as decoupled containers with strict API contracts, rather than hardcoding the logic. This trade-off added slight network latency but allowed data scientists to update AI models independently without system downtime and accelerating the system implementation time."
+                },
+                {
+                    strong: "Window-Based Stability Tracking:",
+                    text: "I opted to prioritize P95/P99 latency over per-request tracking. Tracking every request was computationally unfeasible; aggregating by time-windows drastically reduced overhead while maintaining service quality guarantees."
+                }
+            ]
+        },
+        {
+            title: "Results",
+            content: "Successfully deployed the closed-loop controller in a Federated Edge Platform distributed across Europe in partnership with IONOS. The system demonstrated autonomous diagnosis and sub-second mitigation of network bottlenecks, preserving Edge AI inference latency."
+        },
+        {
+            title: "Lessons Learned",
+            content: "When implementing autonomous control loops, the \"Execute\" phase must be completely decoupled from the application logic. By treating the AI application as a black box and acting purely on infrastructure and network routing, I ensured the control loop could scale generically across different workloads without requiring custom application rewrites."
         }
     ]
 };
@@ -97,14 +197,30 @@ export const ceaData = {
     id: "cea",
     title: "Configurable Edge Application (CEA)",
     subtitle: "Designing a Distributed Edge Load Emulator",
-    overview: "As part of a European consortium building next-generation cloud-edge infrastructure, our engineering teams faced a critical bottleneck: How do we reliably test the performance and scalability of distributed edge nodes under realistic, highly variable conditions? We needed a system capable of generating cross-platformcontrolled computational and network loads with adaptable performance characteristics to emulate real-world edge applications. Furthermore, the system had to be cross-platform compatible, operating seamlessly across Linux servers, Raspberry Pis, and mobile operating systems (Android/iOS).",
+    overview: "Testing the performance of next-generation cloud-edge infrastructure requires reliably emulating realistic, highly variable workloads. The Configurable Edge Application (CEA) is a cross-platform, distributed edge load emulator designed to generate controlled computational and network loads across Linux servers, Raspberry Pis, and mobile OS environments.",
     role: "Systems Architect",
-    roleDescription: "I designed the system's architecture to be distributed, cross-platform compatible and highly scalable and flexible. I also defined the system's product requirements to ensure it met the defined functionalities.",
-    techStack: ["OpenTelemetry", "Distributed Systems", "Containerized Load Testing", "Cross-Platform Compatibility"],
+    roleDescription: "I designed the scalable, three-tier distributed architecture separating orchestration from execution. I specified the product requirements, including dynamic topologies and customizable load profiling. I coordinated the development by breaking down the architecture into actionable Epics and User Stories for backend, infrastructure, and observability.",
+    techStack: ["OpenTelemetry", "C#", "Python", "Distributed Systems", "Containerized Load Testing", "Cross-Platform Compatibility"],
     sections: [
         {
-            title: "System Architecture: Breaking Down the Complexity",
-            content: "To solve this, I architected the Configurable Edge Application (CEA). Instead of building a monolithic system, I designed a scalable, three-tier distributed architecture to separate orchestration from execution:",
+            title: "Problem",
+            content: "Current edge infrastructure providers lack a reliable way to stress-test distributed edge nodes under realistic conditions. They needed a tool that could instantly deploy across heterogeneous hardware, mimic specific application profiles (like ML video processing or V2I messaging), and coordinate client-server load generation acrross federated infrastructure."
+        },
+        {
+            title: "Requirements",
+            list: [
+                {
+                    strong: "Functional Requirements:",
+                    text: "Provide a REST endpoint to globally start/stop client-server load operations; Support dynamic 1-to-N pairings (multiple clients targeting one server); Generate customizable CPU loads (synthetic 'Bogo' operations) and network traffic; Collect granular tracing isolating CPU processing time from network transit time."
+                },
+                {
+                    strong: "Non-functional Requirements:",
+                    text: "Cross-platform compatibility (Linux, RPi OS, Android/iOS); High scalability to emulate thousands of concurrent edge clients; Real-time reactive communication between global and local managers."
+                }
+            ]
+        },
+        {
+            title: "System Functionality",
             list: [
                 { strong: "Global Manager (GloM).", text: "Acts as the centralized brain of the testing suite. Exposes a REST API endpoint to initiate or stop client-server operations across specified hosts globally." },
                 { strong: "Distributed Manager (DiM).", text: "Implements node-level lifecycle management. Deployed locally on client/server hosts, the DiM connects to the GloM via reactive channels. It tracks underlying application instances, knows their state (busy/free), and deploy or kills instances on demand." },
@@ -112,102 +228,283 @@ export const ceaData = {
             ]
         },
         {
-            title: "Defining Core Product Capabilities",
-            content: "With the architecture defined, I translated the system into strict product requirements to ensure it met the defined testing parameters:",
+            title: "Architecture Decisions",
             list: [
-                { strong: "Dynamic Topology (1-to-N Pairing):", text: "Real-world edge servers handle multiple clients simultaneously. I designed the system to support multiple CEA instances operating as clients targeting a single CEA instance operating as a server." },
-                { strong: "Customizable Load Profiling:", text: "I defined requirements for instances to mimic specific edge profiles (e.g., heavy machine learning video processing vs. lightweight V2I messaging). This includes configuring specific CPU load (measured in synthetic 'Bogo' operations) and network traffic volume." },
-                { strong: "Enterprise-Grade Observability:", text: "A testing tool is useless without metrics. I mandated OpenTelemetry integration to collect granular tracing spans during each operational cycle. I specifically designed spans to isolate pure CPU processing time from network uplink/downlink time, allowing for precise load type identification." }
+                {
+                    strong: "Three-Tier Distributed Architecture:",
+                    text: "I chose to split the system into a Global Manager (GloM), Distributed Manager (DiM), and Workers. This prevented a monolithic bottleneck and ensured node-level lifecycle management could survive network partitions with the global orchestrator."
+                },
+                {
+                    strong: "WebSockets for Infrastructure Control:",
+                    text: "Selected persistent WebSockets over HTTP polling for the GloM-to-DiM connection to allow instant, low-latency push commands for starting/stopping massive distributed tests."
+                },
+                {
+                    strong: "OpenTelemetry for Observability:",
+                    text: "Implemented over custom logging solutions because it natively supports distributed trace context propagation, which was mandatory for correlating client requests with server processing times."
+                }
             ]
         },
         {
-            title: "From Architecture to Execution:",
-            content: "To bridge the gap between architectural design and agile delivery, I broke these modules down into actionable Epics and User Stories for the development team.",
-            list: [
-                { strong: "Task 1 (Backend/API):", text: "Implement the GloM POST /Run REST endpoint to accept JSON payloads defining client/server host IPs and core instructions." },
-                { strong: "Task 2 (Infrastructure):", text: "Establish a persistent websocket connection between the GloM and distributed DiM nodes." },
-                { strong: "Task 3 (Worker/Logic):", text: "Develop the DiM logic to check the array of local CEA instances and transition their state from free to busy upon receiving a start command." },
-                { strong: "Task 4 (Observability):", text: "Instrument the CEA client worker to generate an OpenTelemetry span strictly measuring the execution time of requested Bogo operations before data transmission." },
-                { strong: "Outcome:", text: "By structuring the problem into clear architectural domains and defined product increments, the engineering team could build, deploy, and scale the load emulator iteratively, enabling successful stress-testing of the consortium's edge infrastructure." }
-            ]
+            title: "Results",
+            content: "Successfully delivered the architecture to the development team. The system reliably simulated concurrent complex workloads, validating the underlying cloud-edge infrastructure before production launch."
+        },
+        {
+            title: "Lessons Learned",
+            content: "I realized that when building distributed testing tools, the orchestrator (Global Manager) must never manage the micro-state of individual workers. Delegating the lifecycle management to local Distributed Managers (DiM) proved crucial; it kept the central API highly responsive and drastically reduced the blast radius if an individual worker crashed."
         }
     ]
 };
-
-
 
 export const wsnData = {
     id: "wsn",
     title: "Wireless Sensor Network for Environmental and Pollutant Monitoring",
     subtitle: "From Requirements to Real Product",
-    overview: "I architected and led the development of a highly scalable, RTOS-based embedded platform designed for remote environmental and pollutant monitoring. Operating in highly distributed and often harsh environments. The system leverages TinyML to implement Neural Networks for real-time sensor calibration, I2C multiplexing for dynamic sensor payloads, and a highly resilient telemetry pipeline featuring automated failovers between Cellular (GPRS) and WiFi networks.",
+    overview: "Operating in highly distributed and harsh environments requires rock-solid hardware and software. I architected and led the development from concept to product of a scalable, RTOS-based embedded platform for remote environmental monitoring, leveraging TinyML for sensor calibration and an event-driven architecture with resilient cellular/Wi-Fi failovers.",
     role: "Embedded IoT Engineer & Technical Lead",
-    roleDescription: "I led the development of full life-cycle of a Wireless Sensor Network for Environmental and Pollutant Monitoring from the requirements collection, through firmware development and system integration, hardware prototyping, product design, and finally product launch. My focus was on architecting a fault-tolerant FreeRTOS environment, designing the modular C++ firmware architecture, and ensuring rock-solid remote connectivity.",
+    roleDescription: "I designed the event-driven, multi-threaded C++ firmware architecture in FreeRTOS. I specified the abstracted Communication Handler for resilient telemetry and failovers. I coordinated the full product lifecycle from requirements to hardware prototyping and deployment.",
     techStack: [
         "C/C++",
         "FreeRTOS",
         "Embedded Systems Architecture",
         "Hardware Prototyping",
-        "Product Design",
         "I2C & UART Multiplexing",
-        "Cellular IoT & MQTT/HTTP",
-        "Sensor Calibration",
-        "Unit/Integration/System Testing"
+        "Cellular IoT & MQTT/HTTP"
     ],
     sections: [
         {
-            title: "System Architecture: Breaking Down the Complexity",
-            content: "To solve the complexity of managing concurrent sensor polling, network I/O, and processing without blocking the system, I architected an event-driven, multi-threaded firmware design using FreeRTOS. Key architectural decisions included:",
-            list: [
-                { strong: "Deterministic Scheduling:", text: "I implemented a hardware timer-driven scheduler, which triggers an Interrupt Service Routine (ISR) to create system ticks. To keep the ISR extremely lean, it utilizes `xQueueSendFromISR` to defer the heavy lifting of sensor data acquisition to a dedicated FreeRTOS task." },
-                { strong: "Decoupled Telemetry Pipeline:", text: "Network transmission can inherently block execution. To mitigate this, I designed an asynchronous `Transmitter` task that listens to a FreeRTOS queue. Sensor payloads are formatted into JSON and queued for transmission, allowing the sensor hub to continue polling precisely on schedule regardless of network latency." },
-                { strong: "Resource Guarding:", text: "Given the shared nature of the I2C bus among multiplexers and various sensors, I implemented a mutex system to prevent bus collisions and ensure thread-safe peripheral access." },
-                { strong: "Leverage OOP:", text: "I decided to leverage OOP to create a modular, plug-and-play ecosystem that allowed the hardware to scale without firmware rewrites. Sensors connected to the hub are created following a sensor template. Furthermore, a port structure allows the hub to be used with any sensor that implements the same interface, while abstracting it from the hardware." }
-            ]
+            title: "Problem",
+            content: "Remote environmental monitoring stations suffered from blocked execution threads, data drift from raw sensors, and frequent offline periods due to volatile cellular networks. A new firmware architecture was required that could handle concurrent I/O asynchronously, self-heal network drops, and apply machine learning calibration directly on the edge."
         },
         {
-            title: "Defining Core Product Capabilities",
-            content: "With the architecture defined, I developed a modular, plug-and-play ecosystem that allowed the hardware to scale without firmware rewrites.",
+            title: "Requirements",
             list: [
                 {
-                    strong: "Dynamic Sensor Hub & Multiplexing:",
-                    text: "I integrated a I2C multiplexer and designed a dynamic bus-scanning algorithm. This allows the firmware to automatically detect, initialize, and pull configuration parameters for dynamically attached sensors on the fly, making hardware revisions seamless."
+                    strong: "Functional Requirements:",
+                    text: "Asynchronously poll environmental sensors without blocking the RTOS scheduler; Dynamically detect and initialize I2C sensors via a multiplexer; Apply on-device calibration (Linear Regression, ML models) prior to transmission; Perform OTA (Over-The-Air) firmware updates with automatic rollback."
                 },
                 {
-                    strong: "Smart Edge Calibration:",
-                    text: "Raw environmental data often drifts. I proposed to implement an on-device calibration engine that applies mathematical corrections, including configurable Offsets, Linear Regression, Multivariate Linear Regression models, and neural networks, before the data is ever packaged for the cloud."
-                },
-                {
-                    strong: "Time-Windowed Sampling Constraints:",
-                    text: "To optimize power and data usage, I designed an RTC-aware constraint engine that dynamically adjusts or blocks sensor sampling based on the time of day (e.g., Morning vs. Midnight) or the day of the week (Weekday vs. Weekend). The window is independent for each sensor port in the platform, allowing maximal functional flexibility"
+                    strong: "Non-functional Requirements:",
+                    text: "Fault-tolerant connectivity with automated WiFi/Cellular failover; Thread-safe peripheral access (UART/I2C) to prevent bus collisions; Extreme power efficiency using RTC-aware sampling constraints."
                 }
             ]
         },
         {
-            title: "Engineering Challenges & Designing for Resilience",
-            content: "Deploying hardware in remote locations means physical maintenance is virtually impossible. The system had to be self-healing and able to upgrade remotelly.",
+            title: "System Functionality",
+            list: [
+                { strong: "Dynamic Sensor Hub & Multiplexing:", text: "I integrated a I2C multiplexer and designed a dynamic bus-scanning algorithm. This allows the firmware to automatically detect, initialize, and pull configuration parameters for dynamically attached sensors on the fly, making hardware revisions seamless." },
+                { strong: "Smart Edge Calibration:", text: "Raw environmental data often drifts. I proposed to implement an on-device calibration engine that applies mathematical corrections, including configurable Offsets, Linear Regression, Multivariate Linear Regression models, and neural networks, before the data is ever packaged for the cloud." },
+                { strong: "Time-Windowed Sampling Constraints:", text: "To optimize power and data usage, I designed an RTC-aware constraint engine that dynamically adjusts or blocks sensor sampling based on the time of day (e.g., Morning vs. Midnight) or the day of the week (Weekday vs. Weekend). The window is independent for each sensor port in the platform, allowing maximal functional flexibility." }
+            ]
+        },
+        {
+            title: "Architecture Decisions",
             list: [
                 {
-                    strong: "Abstracted & Resilient Connectivity:",
-                    text: "I built a Communication Handler abstraction layer that seamlessly handles both WiFi and Cellular modems. I implemented an automated failover state machine: if a network connection drops or HTTP/MQTT requests fail, the system attempts a controlled modem power-cycle, followed by a switch in communication topology (e.g., Cellular to WiFi), and finally an OS-level watchdog restart if all recovery attempts are exhausted."
+                    strong: "FreeRTOS:",
+                    text: "Selected to utilize preemptive multitasking, queues, and mutexes, which were necessary to decouple sensor polling from high-latency cellular network transmissions."
                 },
                 {
-                    strong: "UART Contention Management:",
-                    text: "The cellular module requires heavy AT-command usage. I utilized a custom uart_manager mutex to guarantee atomic UART transactions between the FreeRTOS tasks and the modem, eliminating race conditions during HTTP POSTs and MQTT publishes."
+                    strong: "Event-Driven ISR Scheduling:",
+                    text: "I chose to use hardware timers and Interrupt Service Routines (ISRs) to simply queue tasks rather than execute them. This trade-off slightly increased RAM usage for queues but guaranteed deterministic timing for the core system ticks."
                 },
                 {
-                    strong: "Local Field Diagnostics:",
-                    text: "For on-site technicians, I implemented a debounced hardware interrupt that spins up a local WiFi Access Point and a captive portal Web Server. This allows secure, in-field access to live HTML data streams, RTC time synchronization, and the downloading of gzipped historical `.csv` logs directly from the onboard SD card."
+                    strong: "Abstracted OOP Hardware Layer:",
+                    text: "I used C++ OOP principles to abstract sensor ports. While it added minor overhead compared to pure C structs, it allowed the hardware to scale and swap sensors dynamically without requiring complete firmware rewrites."
                 },
                 {
-                    strong: "OTA Firmware Updates:",
-                    text: "I lead the design of a firmware update mechanism. The system downloads the new firmware to a temporary buffer, verifies its integrity, and then performs a controlled swap of the active firmware image. This ensures that even if the update process is interrupted, the device can recover and continue operating with the last known good firmware."
+                    strong: "Dual-Modem Failover State Machine:",
+                    text: "I implemented a strict hardware/software watchdog and failover loop. Why? Because manual resets in remote environments (like the Galapagos) are impossible. The system aggressively tries to recover cellular, falls back to WiFi, and finally triggers a hard OS reboot."
                 }
             ]
         },
         {
-            title: "The Business Outcome: A WSN deployed nationwide",
-            content: "The WSN developed was deployed nationwide in 2024, with multiple nodes deployed in different locations from the country and the Galapagos islands. The system is currently in operation and is monitoring the environment and pollutant levels in real-time. Several patents were filed for the system and the firmware developed."
+            title: "Results",
+            content: "The platform was successfully launched and deployed nationwide in 2022 and is still in operation, including critical installations in the Galapagos Islands. The system continuously monitors pollutants in real-time with exceptional uptime. The novel architecture and firmware approach led to several filed patents."
+        },
+        {
+            title: "Lessons Learned",
+            content: "In embedded systems deployed to inaccessible locations, you must code for the absolute worst-case hardware failure. Assuming the cellular modem will lock up or the I2C bus will stall forced me to implement aggressive mutex guarding and hardware watchdogs. Resilience isn't an add-on feature; it is the core foundation of remote IoT architecture."
+        }
+    ]
+};
+
+export const eeaaRtosData = {
+    id: "eeaa-rtos",
+    title: "Edge-aware Tasks RTOS",
+    subtitle: "Portable RTOS Abstraction for Edge-Cloud Task Orchestration",
+    overview: "Edge-aware Tasks RTOS is a framework designed for modeling, creating, and observing task pairs with a portable RTOS abstraction layer. It wraps the RTOS primitives behind a stable interface (EEAA) adding task metadata, monitoring helpers, and client/server orchestration utilities, solving the problem of how to represent work split between local and remote execution contexts predictably on constrained devices.",
+    role: "Embedded Systems Architect and SW Developer",
+    roleDescription: "I designed the system architecture and the portable RTOS abstraction layer, and then fully implemented it (coding, testing, CI/CD, documentation). I specified the client/server task pairing model and the decoupled offloader controller routing logic. I orchestrated the framework's core modules including the EEAA task manager and the runtime facade to ensure product-grade lifecycle control.",
+    techStack: ["C", "FreeRTOS", "ESP32", "Embedded Systems", "RTOS Architecture", "Distributed Tasks"],
+    sections: [
+        {
+            title: "Problem",
+            content: "Embedded edge AI systems struggle to model work that is split between a local client and a remote server role. Creating, cleaning up, and monitoring these cooperative task relationships predictably on constrained devices is difficult, often leading to resource leaks, inconsistent states during failures, and non-portable code locked to specific RTOS implementations."
+        },
+        {
+            title: "Requirements",
+            list: [
+                {
+                    strong: "Functional Requirements:",
+                    text: "Provide a portable RTOS abstraction for tasks, queues, and mutexes; Model tasks with client (local) and server (remote/cooperating) roles exchanging messages via queues; Maintain real-time monitoring metadata (WCET, latency, host info) for tasks; Provide a product-grade runtime facade to start/stop the manager."
+                },
+                {
+                    strong: "Non-functional Requirements:",
+                    text: "Ensure zero resource leaks with strict cleanup correctness and rollback mechanisms; Isolate RTOS-specific implementation to guarantee portability; Maintain predictable resource usage with explicit heap allocations; Support low-latency hot monitoring alongside descriptive cold metadata."
+                }
+            ]
+        },
+        {
+            title: "System Functionality",
+            list: [
+                { strong: "Application / Runtime Facade:", text: "Owns the developer-facing runtime lifecycle, exposing start/stop controls and diagnostics without exposing internal task management." },
+                { strong: "Offloader Controller:", text: "Evaluates routing policies and applies LOCAL or REMOTE routing for client-side tasks based on task-manager snapshots." },
+                { strong: "EEAA Task Manager:", text: "The core engine that owns task creation policy, runtime object lifetimes, stores monitoring state, and resolves runtime relationships." },
+                { strong: "Portable RTOS & Board Layer:", text: "Maps abstract API calls to native FreeRTOS primitives and isolates board-specific hardware details (e.g., cycle counters)." }
+            ]
+        },
+        {
+            title: "Architecture Decisions",
+            list: [
+                {
+                    strong: "Decoupled Task Manager:",
+                    text: "Selected to coordinate creation, rollback, and monitoring without directly exposing RTOS APIs, ensuring that any failed creation step cleanly rolls back to prevent memory leaks on constrained edge devices."
+                },
+                {
+                    strong: "Explicit Queue-based Messaging:",
+                    text: "Chosen over hidden shared memory protocols to enforce a strict boundary between client and server roles, making data flow observable and deterministic."
+                },
+                {
+                    strong: "Dual-State Monitoring (Hot vs. Cold):",
+                    text: "Implemented separate low-latency \"hot\" runtime state arrays and descriptive \"cold\" metadata. They are synced via task indices to allow fast execution paths while still providing rich diagnostic telemetry."
+                },
+                {
+                    strong: "Portability Abstraction:",
+                    text: "Designed the port_interface_types and port_rtos layers to ensure the core task manager remains completely RTOS-agnostic, allowing future integration and broad RTOS support."
+                }
+            ]
+        },
+        {
+            title: "Results",
+            content: "Successfully developed and open-sourced a robust, production-ready RTOS framework. Delivered selectable runnable demos (e.g., happy path, hello-world) that demonstrate predictable edge-task creation, queue-based orchestration, and resilient lifecycle teardown."
+        },
+        {
+            title: "Lessons Learned",
+            content: "When designing frameworks for constrained devices, failure recovery is more important than the happy path. Ensuring that task creation rolls back perfectly upon failure required meticulous resource ownership design. Enforcing explicit messaging queues, rather than shared memory, vastly improves system observability and testability in embedded edge environments."
+        }
+    ]
+};
+
+export const secondBrainData = {
+    id: "second-brain",
+    title: "Second Brain",
+    subtitle: "A Governed Knowledge Platform for Multi-Agent Workflows",
+    overview: "AI agents forget everything between sessions, and the usual fix, a vector store bolted onto a chatbot, produces answers nobody can verify and memory that any agent can silently corrupt. Second Brain is a knowledge management platform built for agentic workflows: it turns heterogeneous documents into a structured, versioned knowledge graph, delegates only the judgement-heavy work to a pluggable AI agent, and exposes a governed, auditable contract so any number of downstream agents can ground their work in knowledge where every answer traces back to the exact source line.",
+    role: "Systems Architect & Lead Engineer",
+    roleDescription: "I defined the end-to-end architecture, the agent orchestration model and the safety rules the platform enforces in code. I specified the note, skill and knowledge-access contracts that agents must honour, designed the governance model separating what agents may propose from what they may apply, and set the evaluation methodology: measured baselines, benchmarks and regression guards proven to fail when the defect is reintroduced. I drove delivery through phased, independently shippable increments, each recorded in a decision log written to be picked up cold by a new engineer or agent.",
+    techStack: ["Agentic AI", "Claude Code", "OpenClaw", "Python", "FastAPI", "SQLite", "Knowledge Graphs", "Local Embeddings (Ollama)", "JSON Schema Contracts", "OKF / Markdown"],
+    metrics: [
+        { value: "2,211", label: "Automated tests", detail: "Including guards that fail the build on safety regressions" },
+        { value: "100%", label: "Answer provenance", detail: "Every answer cites the source note and line" },
+        { value: "68→100%", label: "Cross-document reach", detail: "Queries that find all relevant notes, not only the obvious one" },
+        { value: "−75%", label: "Agent calls", detail: "273 → 69 per book via batch packing, ~6.5M tokens saved" },
+        { value: "0", label: "Metered API paths", detail: "Subscription-only by construction, checkable at runtime" },
+        { value: "13s→47ms", label: "Hot query path", detail: "Algorithmic rework, proven equivalent by replay" }
+    ],
+    capabilities: [
+        {
+            area: "Agent Orchestration",
+            title: "Pluggable AI agent for judgement tasks"
+        },
+        {
+            area: "Sessions & Context",
+            title: "Scoped, short-lived agent sessions"
+        },
+        {
+            area: "Memory & Knowledge",
+            title: "Verifiable long-term memory"
+        },
+        {
+            area: "Security",
+            title: "Untrusted input is data, not instructions"
+        },
+        {
+            area: "Authorization & Governance",
+            title: "Agents propose, governed paths apply"
+        },
+        {
+            area: "Evolving Workflows",
+            title: "A knowledge model that grows itself"
+        },
+        {
+            area: "Scalability",
+            title: "Isolated tenants, measured performance"
+        },
+        {
+            area: "Generalization",
+            title: "Domain-neutral by design"
+        }
+    ],
+    sections: [
+        {
+            title: "Problem",
+            content: "Organisations adopting multi-agent workflows hit the same wall: agents have no durable, shared memory they can trust. Context windows forget between sessions, retrieval over raw files returns fragments without provenance, and letting autonomous agents rewrite their own memory lets errors compound silently. On top of that, every model call can become an uncontrolled, metered cost. The need was a knowledge layer that many agents can read from safely, that improves over time without drifting, and whose every answer can be verified by a human in seconds."
+        },
+        {
+            title: "Requirements",
+            list: [
+                {
+                    strong: "Functional Requirements:",
+                    text: "Ingest heterogeneous sources (papers, books, web pages, meeting notes, decision records, transcripts, AI conversations) into one consistent note shape; extract concepts, claims, evidence and open questions and link them across documents; answer questions with line-level citations; detect gaps, duplicates and drift; support multiple isolated collections with their own configuration and agent."
+                },
+                {
+                    strong: "Non-functional Requirements:",
+                    text: "No metered model spend under any configuration; graceful degradation when the agent is unavailable; full auditability of agent-initiated changes; rebuildability of all derived state from the canonical notes; tenant isolation; defence against prompt injection from fetched content; generalization to any domain without code changes."
+                }
+            ]
+        },
+        {
+            title: "Knowledge Pipeline",
+            content: "Each stage is derived from the one before and never merged with it, so a bad import is always recoverable by stepping back.",
+            steps: [
+                { name: "Raw source", text: "The original file or URL, exactly as provided, after injection scanning and quarantine." },
+                { name: "Converted Markdown", text: "PDFs and documents turned into text in a sandboxed converter, with table and math repair." },
+                { name: "Templated Markdown", text: "Poured into the template for its source type." },
+                { name: "Wiki note", text: "The brain-keeper produces a note with eight mandatory sections and full provenance." },
+                { name: "Knowledge graph", text: "Concepts, claims, evidence and questions, linked across documents and tagged from a closed vocabulary." },
+                { name: "Maintained layer", text: "Staleness, duplicates, drift and review history, curated nightly." },
+                { name: "Governed answers", text: "A versioned, audited, read-only contract for downstream agents." }
+            ]
+        },
+        {
+            title: "System Functionality",
+            list: [
+                { strong: "Ingestion & Normalization:", text: "A single entry point converts, templates, normalizes and ingests any supported source, keeping provenance attached at every hop. Long documents such as full books are split into chapters by table of contents and ordinal detection, processed in parallel batches, and checked for 100% source coverage." },
+                { strong: "Knowledge Graph & Retrieval:", text: "Four additive retrieval routes (shared terms, closed-vocabulary tags with aliases, concept hierarchy, and optional local passage embeddings) with a confidence gate that declines off-topic questions rather than guessing." },
+                { strong: "Brain-keeper Agent:", text: "Asynchronous, cancellable agent jobs for extraction, tagging, duplicate adjudication, drift explanation, gap interpretation and answer writing, each validated against its schema before anything reaches the graph." },
+                { strong: "Governed Agent Contract:", text: "Four stable endpoints (contract, answer, task context, read next) that downstream agents use to ground their work, with explicit scope, stated confidence, warnings and an audit record per call." },
+                { strong: "Review & Maintenance:", text: "A human-in-the-loop review queue, mechanical repair routes that never write prose, lint against the note contract, and scheduled per-workspace maintenance." },
+                { strong: "Operations:", text: "Health, integrity, billing-safety and embedding-staleness checks; backup, restore and isolated restore rehearsal; governance audit and quarantine inspection." }
+            ]
+        },
+        {
+            title: "Architecture Decisions",
+            list: [
+                { strong: "Agents only where the decision is semantic:", text: "Anything reachable by counting, thresholding or traversal stays deterministic. This kept the read path in milliseconds and confined model cost and non-determinism to the tasks that genuinely need judgement." },
+                { strong: "Agent CLIs over model SDKs:", text: "Work is delegated to agent tools running on existing subscriptions rather than to metered APIs. There is no code path to a paid API at all, which turns a cost policy into a guarantee enforced by tests." },
+                { strong: "From caller hand-off to a standing brain-keeper:", text: "An early in-process model runtime behaved like an autonomous agent inside a service meant to be deterministic. It was replaced first by a stateless caller hand-off, then by a per-workspace brain-keeper behind a job API, with every in-process runtime deleted." },
+                { strong: "Markdown as the source of truth:", text: "Chosen over a database-first design so knowledge stays human-readable, diffable and portable, and so any corruption in derived state is fixed by rebuilding, never by patching the database." },
+                { strong: "Closed vocabulary with aliases over free tagging or label embeddings:", text: "Label embeddings scored synonyms like “RTOS” and “real-time operating system” as less alike than terms that must stay apart. Declared aliases solve synonymy reliably, including private abbreviations no model has seen." },
+                { strong: "Measure before scaling out:", text: "SQLite was kept over Neo4j and brute-force scoring over a vector database after load tests showed headroom, with explicit caps and a documented trigger for when to move." }
+            ]
+        },
+        {
+            title: "Results",
+            content: "The platform runs multiple isolated knowledge bases across books, research papers, web content, meeting notes and long AI conversations, including a single transcript of about 745,000 characters. On its retrieval benchmark it reaches 83% top-1 and 95% top-3 accuracy with 100% provenance, and cross-document queries went from 68% to 100% coverage once vocabulary-driven expansion was added. Batch packing cut agent calls per book by 75%, nightly maintenance costs zero agent calls on an unchanged collection, and 2,211 automated tests, including guards for billing safety, self-containment and domain neutrality, protect every guarantee."
+        },
+        {
+            title: "Lessons Learned",
+            content: "In agentic systems the most dangerous failure looks like success: a silent fallback, a confident zero from a broken join, or a benchmark that cannot see the change it is cited for. I made those failures visible by design, with explicit warnings, capability states that separate “configured” from “verified”, and regression guards proven to bite by reintroducing the defect. The second lesson is that agent autonomy must be granted per operation rather than per agent: additive changes can be automated, while anything that changes the meaning of existing knowledge stays behind a governed, human-approved path."
         }
     ]
 };

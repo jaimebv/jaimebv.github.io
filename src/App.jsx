@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import CaseStudy from './pages/CaseStudy';
 import TechPortfolio from './pages/TechPortfolio';
 import Innovations from './pages/Innovations';
-import { seqamData, greenShiftData, mapekData, ceaData, wsnData } from './data/caseStudies';
+import { seqamData, greenShiftData, mapekData, ceaData, wsnData, eeaaRtosData, secondBrainData } from './data/caseStudies';
 
 function App() {
     return (
@@ -19,6 +19,8 @@ function App() {
                     <Route path="cea" element={<CaseStudy data={ceaData} />} />
                     <Route path="tech-portfolio" element={<TechPortfolio />} />
                     <Route path="innovations" element={<Innovations />} />
+                    <Route path="eeaa-rtos" element={<CaseStudy data={eeaaRtosData} />} />
+                    <Route path="second-brain" element={<CaseStudy data={secondBrainData} />} />
                 </Route>
             </Routes>
         </HashRouter>

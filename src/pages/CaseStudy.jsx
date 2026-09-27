@@ -33,7 +33,48 @@ export default function CaseStudy({ data }) {
                         </div>
                     </div>
                 </div>
+
+                {/* Key Metrics (optional) */}
+                {data.metrics && (
+                    <div className="mt-16 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 border-t border-l border-white/10">
+                        {data.metrics.map((metric, idx) => (
+                            <div key={idx} className="border-r border-b border-white/10 p-6 flex flex-col gap-3">
+                                <span className="font-serif italic tracking-tighter leading-none text-3xl md:text-4xl text-silver">
+                                    {metric.value}
+                                </span>
+                                <span className="font-mono text-[10px] uppercase tracking-widest text-white">
+                                    {metric.label}
+                                </span>
+                                <span className="font-sans font-light text-xs text-white/50 leading-relaxed">
+                                    {metric.detail}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </header>
+
+            {/* Capability Map (optional) */}
+            {data.capabilities && (
+                <section className="container-fluid mb-24 md:mb-32">
+                    <h3 className="font-mono text-xs uppercase tracking-widest text-white/50 mb-10 flex items-center gap-4">
+                        <span className="w-8 h-px bg-white/20"></span>
+                        Capability Map
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 border-t border-l border-white/10">
+                        {data.capabilities.map((cap, idx) => (
+                            <div key={idx} className="glass-panel border-0 border-r border-b border-white/10 p-8 flex flex-col">
+                                <div className="font-mono text-[10px] text-white/50 mb-6 uppercase tracking-widest">
+                                    {String(idx + 1).padStart(2, '0')} / {cap.area}
+                                </div>
+                                <h4 className="font-serif italic tracking-tighter leading-tight text-2xl text-white">
+                                    {cap.title}
+                                </h4>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
 
             {/* Main Content */}
             <div className="container-fluid grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
@@ -76,6 +117,24 @@ export default function CaseStudy({ data }) {
                                 <p className="font-sans text-lg font-light text-white/80 leading-relaxed mb-8">
                                     {section.content}
                                 </p>
+                            )}
+
+                            {section.steps && (
+                                <ol className="flex flex-col border-t border-white/10">
+                                    {section.steps.map((step, stepIdx) => (
+                                        <li key={stepIdx} className="grid grid-cols-[3rem_1fr] md:grid-cols-[4rem_14rem_1fr] gap-x-4 gap-y-1 py-5 border-b border-white/10">
+                                            <span className="font-mono text-xs text-white/40 tracking-widest md:row-span-1 row-span-2">
+                                                {String(stepIdx + 1).padStart(2, '0')}
+                                            </span>
+                                            <strong className="font-mono text-xs uppercase tracking-widest text-white font-normal">
+                                                {step.name}
+                                            </strong>
+                                            <p className="font-sans font-light text-white/70 leading-relaxed text-sm">
+                                                {step.text}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ol>
                             )}
 
                             {section.list && (

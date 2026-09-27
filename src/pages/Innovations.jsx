@@ -42,6 +42,19 @@ export default function Innovations() {
                 { name: "Conference Talk", bg: "bg-slate-500/20 text-slate-200" }
             ],
             link: "https://www.youtube.com/watch?v=YKspaqa1PTs&list=PLj6h78yzYM2MZ-bw7e9fZhV2jDdLVEP6C&index=7"
+        },
+        {
+            id: 5,
+            title: "Safe-EI: Safety-Constrained Offloading for Edge Intelligence in Mixed-Criticality Systems",
+            description: "A Safety-constrained Reinforcement Learning strategy to orchestrate offloading decisions in mixed-criticality edge intelligence systems, establishing a dynamic temporal guard band to maintain 0% deadline-missed ratio.",
+            tags: [
+                { name: "Edge Computing", bg: "bg-orange-500/20 text-orange-200" },
+                { name: "Safety-Critical", bg: "bg-red-500/20 text-red-200" },
+                { name: "Embedded Devices", bg: "bg-teal-500/20 text-teal-200" },
+                { name: "RTOS", bg: "bg-zinc-500/20 text-zinc-200" },
+                { name: "Edge AI", bg: "bg-purple-500/20 text-purple-200" }
+            ],
+            link: "https://ieeexplore.ieee.org/document/11580083/"
         }
     ];
 

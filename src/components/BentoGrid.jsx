@@ -15,14 +15,20 @@ export default function BentoFeatureGrid({ items }) {
                     // Remove right border for the last item in a row on desktop
                     if (idx === 2 || idx === 4) borderClass = "lg:border-r-0";
                 } else {
-                    // Fallback for general case
-                    if ((idx + 1) % 3 === 0) borderClass = "lg:border-r-0";
+                    // Fallback for general case: 3 per row, stretching an incomplete last row
+                    const remainder = items.length % 3;
+                    const inLastRow = remainder !== 0 && idx >= items.length - remainder;
+                    if (inLastRow) colSpan = remainder === 1 ? "lg:col-span-6" : "lg:col-span-3";
+                    if ((idx + 1) % 3 === 0 || idx === items.length - 1) borderClass = "lg:border-r-0";
                 }
 
                 // Add missing md fallback for border, if 2 cols then every even index removes border 
                 const mdBorderClass = ((idx + 1) % 2 === 0) || (idx === items.length - 1) ? "md:border-r-0" : "md:border-r";
 
-                return <BentoCard key={idx} item={item} index={idx} colSpan={colSpan} borderClass={`${borderClass} ${mdBorderClass} border-r-0`} />;
+                // On md (2 cols), an odd last card spans the full row
+                const mdSpan = items.length % 2 === 1 && idx === items.length - 1 ? "md:col-span-2" : "md:col-span-1";
+
+                return <BentoCard key={idx} item={item} index={idx} colSpan={`${colSpan} ${mdSpan}`} borderClass={`${borderClass} ${mdBorderClass} border-r-0`} />;
             })}
         </div>
     );
@@ -56,11 +62,11 @@ function BentoCard({ item, index, colSpan, borderClass }) {
 
     if (isLink) {
         return (
-            <Link to={item.link} className={`block group ${colSpan} md:col-span-1`}>
+            <Link to={item.link} className={`block group ${colSpan}`}>
                 {content}
             </Link>
         );
     }
 
-    return <div className={`block group ${colSpan} md:col-span-1`}>{content}</div>;
+    return <div className={`block group ${colSpan}`}>{content}</div>;
 }

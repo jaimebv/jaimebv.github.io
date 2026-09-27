@@ -14,6 +14,8 @@ export default function Navigation() {
         { label: 'Green IT [GreenShift]', path: '/greenshift' },
         { label: 'Edge AI [MAPE-K]', path: '/mape-k' },
         { label: 'Load Emulator [CEA]', path: '/cea' },
+        { label: 'Edge OS [RTOS]', path: '/eeaa-rtos' },
+        { label: 'Agentic AI [Second Brain]', path: '/second-brain' },
     ];
 
     // Close dropdown when clicking outside

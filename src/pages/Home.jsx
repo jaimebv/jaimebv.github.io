@@ -32,6 +32,18 @@ export default function Home() {
             title: "Edge-Cloud Load Emulator",
             description: "Distributed three-tier architecture to execute and test complex load scenarios in the Cloud-Edge Continuum.",
             link: "/cea"
+        },
+        {
+            category: "EMBEDDED OS",
+            title: "Offloading Framework for Edge-AI",
+            description: "Embedded framework for modeling, creating, and observing edge AI task pairs with a portable RTOS abstraction layer and deterministic execution.",
+            link: "/eeaa-rtos"
+        },
+        {
+            category: "AGENTIC AI",
+            title: "Second Brain for Multi-Agent Workflows",
+            description: "Governed knowledge platform giving AI agents trustworthy, shared memory: scoped sessions, audited access, self-evolving vocabulary and line-level provenance for every answer.",
+            link: "/second-brain"
         }
     ];
 
@@ -42,8 +54,7 @@ export default function Home() {
                 <div className="relative w-full rounded-[2rem] md:rounded-[3rem] bg-white/[0.03] border border-white/5 backdrop-blur-sm px-6 py-16 md:py-24 flex flex-col items-center justify-center text-center overflow-hidden">
 
                     <h1 className="font-serif italic tracking-tighter leading-[0.85] text-[clamp(42px,7vw,110px)] mb-6 md:mb-10 relative z-10 max-w-5xl mx-auto text-white">
-                        From Architecture to Solution<br />
-                        <span className="text-silver-gradient bg-clip-text text-transparent italic">Execution</span>
+                        From Architecture to Solution
                     </h1>
 
                     <div className="font-mono text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.5em] text-white/50 flex flex-col md:flex-row gap-4 md:gap-12 relative z-10">

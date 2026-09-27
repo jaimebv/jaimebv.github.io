@@ -3,6 +3,17 @@ import { Github, Code2, ExternalLink } from 'lucide-react';
 export default function TechPortfolio() {
     const projects = [
         {
+            id: 6,
+            title: "Edge-aware Tasks RTOS",
+            description: "Embedded framework for modeling, creating, and observing edge task pairs with a portable RTOS abstraction layer and deterministic execution.",
+            tags: [
+                { name: "C", bg: "bg-zinc-500/20 text-zinc-200" },
+                { name: "FreeRTOS", bg: "bg-orange-500/20 text-orange-200" },
+                { name: "ESP32", bg: "bg-blue-500/20 text-blue-200" }
+            ],
+            link: "https://github.com/jaimebv/Edge-aware-Tasks-RTOS"
+        },
+        {
             id: 2,
             title: "EDF Port for FreeRTOS",
             description: "Custom port introducing Earliest Deadline First (EDF) scheduling to FreeRTOS, enabling dynamic priority assignment for deterministic real-time execution.",
