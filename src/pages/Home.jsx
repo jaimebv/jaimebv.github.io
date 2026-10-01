@@ -17,8 +17,8 @@ export default function Home() {
         },
         {
             category: "GREEN IT",
-            title: "Green Workload Orchestration",
-            description: "Architecting compliance-driven observability for virtualized workloads to support corporate ESG reporting and enable IT transparent carbon tracking.",
+            title: "Energy & Carbon Attribution",
+            description: "Multi-zone platform attributing measured datacenter power to VMs, Kubernetes workloads and tenants, enabling transparent energy and CO2 reporting for ESG compliance.",
             link: "/greenshift"
         },
         {
@@ -62,9 +62,9 @@ export default function Home() {
                         <span className="hidden md:inline">///</span>
                         <span>Device-Edge-Cloud Continuum</span>
                         <span className="hidden md:inline">///</span>
-                        <span>Embedded Engineer</span>
-                        <span className="hidden md:inline">///</span>
                         <span>Product Owner</span>
+                        <span className="hidden md:inline">///</span>
+                        <span>Embedded Engineer</span>
                     </div>
 
                     {/* Subtle glow behind hero text */}

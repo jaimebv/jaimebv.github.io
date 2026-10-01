@@ -36,7 +36,7 @@ export default function CaseStudy({ data }) {
 
                 {/* Key Metrics (optional) */}
                 {data.metrics && (
-                    <div className="mt-16 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 border-t border-l border-white/10">
+                    <div className={`mt-16 grid grid-cols-2 border-t border-l border-white/10 ${data.metrics.length === 4 ? 'xl:grid-cols-4' : 'md:grid-cols-3 xl:grid-cols-6'}`}>
                         {data.metrics.map((metric, idx) => (
                             <div key={idx} className="border-r border-b border-white/10 p-6 flex flex-col gap-3">
                                 <span className="font-serif italic tracking-tighter leading-none text-3xl md:text-4xl text-silver">
